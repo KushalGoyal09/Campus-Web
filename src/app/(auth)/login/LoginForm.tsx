@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import login from "@/controllers/login";
+import login from "./action";
 import { toast } from "@/hooks/use-toast";
 
 export default function LoginForm() {
@@ -26,7 +26,6 @@ export default function LoginForm() {
       setError(data.message);
       return;
     }
-    localStorage.setItem("token", data.token);
     toast({
       title: "You are loged In Successfully",
       description: "Redirecting to the home page"

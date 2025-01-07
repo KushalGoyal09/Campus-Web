@@ -1,3 +1,5 @@
+"use server";
+
 import { getToken } from "@/lib/auth";
 import { PrismaClient } from "@prisma/client";
 import { cookies } from "next/headers";

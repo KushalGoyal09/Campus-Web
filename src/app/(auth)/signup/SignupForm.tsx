@@ -27,7 +27,7 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import signup from "@/controllers/signup";
+import signup from "./action";
 import getListOfColleges from "@/controllers/getListOfColleges";
 import addNewCollege from "@/controllers/addNewCollege";
 import isEmailUnique from "@/controllers/isEmailUnique";
@@ -168,7 +168,6 @@ export default function SignupForm() {
                 password,
                 selectedCollege.id,
             );
-            localStorage.setItem("token", data.token);
             toast({
                 title: "Sign up Successfully",
                 description: "You are being redirected to home page",
