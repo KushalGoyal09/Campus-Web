@@ -1,7 +1,23 @@
 import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
-const getComments = async (tweetId: string) => {
+interface Comment {
+    createdAt: Date;
+    text: string;
+    User: {
+        username: string;
+        name: string;
+        avatar: string | null;
+    };
+}
+
+interface CommentResponse {
+    success: boolean;
+    message: string;
+    comments: Comment[];
+}
+
+const getComments = async (tweetId: string): Promise<CommentResponse> => {
     try {
         const comments = await db.comment.findMany({
             where: {

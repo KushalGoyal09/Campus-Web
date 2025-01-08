@@ -1,26 +1,29 @@
-import { Post } from "@/components/Post";
+import { InfiniteTweetList } from "./InfiniteTweetList";
+import { getUserInfo } from "@/lib/getUserInfo";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
+import getAllTweets from "@/controllers/getAllTweets";
 
-const samplePost = {
-    id: "1",
-    username: "johndoe",
-    userAvatar: "/placeholder.svg?height=40&width=40",
-    comments: 5,
-    likes: 42,
-    likedByYou: false,
-    createdAt: new Date("2023-06-01T12:00:00Z"),
-    text: "Just finished a great coding session! #webdevelopment #javascript",
-    image: "/image.png",
-};
+export default async function Home() {
+    const userId = (await headers()).get("x-user-id");
+    if (!userId) {
+        redirect("/login");
+    }
+    const user = await getUserInfo(userId);
+    if (!user) {
+        redirect("/login");
+    }
+    const initialTweetResponse = await getAllTweets(userId, 1);
+    console.log(initialTweetResponse);
 
-export default function Home() {
     return (
-        <div>
-            <Post post={samplePost} />
-            <Post post={samplePost} />
-            <Post post={samplePost} />
-            <Post post={samplePost} />
-            <Post post={samplePost} />
-            <Post post={samplePost} />
-        </div>
+        <main className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-6">Your Feed</h1>
+            <InfiniteTweetList
+                initialTweets={initialTweetResponse.tweets}
+                hasMore={initialTweetResponse.hasMore}
+                user={user}
+            />
+        </main>
     );
 }

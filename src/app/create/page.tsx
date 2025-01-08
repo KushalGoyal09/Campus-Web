@@ -1,23 +1,8 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { PrismaClient } from "@prisma/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CreatePostForm } from "./CreatePostForm";
-const db = new PrismaClient();
-
-const getUserInfo = async (userId: string) => {
-    const user = await db.user.findUnique({
-        where: {
-            id: userId,
-        },
-        select: {
-            avatar: true,
-            name: true,
-            username: true,
-        },
-    });
-    return user;
-};
+import { getUserInfo } from "@/lib/getUserInfo";
 
 export default async function CreatePostPage() {
     const userId = (await headers()).get("x-user-id");

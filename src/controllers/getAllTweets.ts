@@ -3,6 +3,7 @@ const db = new PrismaClient();
 
 interface Tweet {
     id: string;
+    name: string;
     username: string;
     userAvatar: string | null;
     comments: number;
@@ -16,16 +17,16 @@ interface Tweet {
 
 interface Post {
     text: string;
-    postImage: {
+    postImage: Array<{
         index: number;
         imageUrl: string;
-    }[];
+    }>;
 }
 
 interface Poll {
     text: string;
     multipleOptions: boolean;
-    options: Option[];
+    options: Array<Option>;
 }
 
 interface Option {
@@ -38,7 +39,7 @@ interface Option {
 interface TweetResponse {
     success: boolean;
     message: string;
-    tweets: Tweet[];
+    tweets: Array<Tweet>;
     hasMore: boolean;
 }
 
@@ -152,8 +153,9 @@ const getAllTweets = async (
         const tweets = data.map((post) => {
             return {
                 id: post.id,
-                username: post.Author.username,
-                userAvatar: post.Author.avatar,
+                username: post.anonymous ? "@Anonymous" : post.Author.username,
+                name: post.anonymous ? "Anonymous" : post.Author.name,
+                userAvatar: post.anonymous ? null : post.Author.avatar,
                 comments: post._count.Comment,
                 likes: post._count.Like,
                 createdAt: post.createdAt,
