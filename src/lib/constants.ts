@@ -29,3 +29,27 @@ export const getAwsRegion = () : string => {
     }
     return region;
 }
+
+export const getS3Bucket = () : string => {
+    const bucket = process.env.S3_BUCKET;
+    if (!bucket) {
+        throw new Error("S3_BUCKET is not defined");
+    }
+    return bucket;
+}
+
+export const getEmailId = () : string => {
+    const email = process.env.EMAIL_ID;
+    if (!email) {
+        throw new Error("EMAIL_ID is not defined");
+    }
+    return email;
+}
+
+export const getEmailPassword = () : string => {
+    const password = process.env.EMAIL_PASSWORD;
+    if (!password) {
+        throw new Error("EMAIL_PASSWORD is not defined");
+    }
+    return password;
+}

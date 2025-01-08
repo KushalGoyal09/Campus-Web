@@ -4,7 +4,7 @@ import { BookOpenIcon, HomeIcon } from 'lucide-react'
 
 export default function NotFound() {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-b from-blue-100 to-blue-200">
+    <div className="flex items-center justify-center min-h-screen bg-slate-50">
       <div className="text-center space-y-6 p-8 bg-white rounded-lg shadow-xl max-w-md w-full">
         <BookOpenIcon className="mx-auto h-24 w-24 text-blue-500" />
         <h1 className="text-4xl font-bold text-gray-800">404 - Page Not Found</h1>
