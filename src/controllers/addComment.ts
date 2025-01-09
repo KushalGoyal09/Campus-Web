@@ -9,16 +9,22 @@ const addComment = async (userId : string,tweetId: string, text: string ) => {
         };
     }
     try {
-        await db.comment.create({
+        const comment = await db.comment.create({
             data: {
                 text,
                 userId,
                 tweetId,
             },
+            select: {
+                text: true,
+                id: true,
+                createdAt: true,
+            }
         });
         return {
             success: true,
             message: "Comment added",
+            comment,
         };
     } catch (error) {
         return {

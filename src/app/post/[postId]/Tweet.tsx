@@ -1,5 +1,4 @@
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Card,
@@ -7,13 +6,11 @@ import {
     CardHeader,
     CardFooter,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Heart, MessageCircle } from "lucide-react";
-import { toggleLike, addComment } from "./action";
-import { toast } from "@/hooks/use-toast";
-import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { MessageCircle } from "lucide-react";
 import { getTimeAgo } from "@/lib/timeAgo";
+import { Button } from "@/components/ui/button";
+import { TweetLike } from "./TweetLike";
+import { toggleLike } from "./action";
 
 interface Post {
     text: string;
@@ -36,6 +33,15 @@ interface Option {
     votedByYou: boolean;
 }
 
+interface Comment {
+    id: string;
+    text: string;
+    createdAt: Date;
+    username: string;
+    name: string;
+    userAvatar: string | null;
+}
+
 interface TweetProps {
     tweet: {
         id: string;
@@ -47,6 +53,7 @@ interface TweetProps {
         likedByYou: boolean;
         createdAt: Date;
         anonymous: boolean;
+        Comments: Array<Comment>;
         post?: Post;
         poll?: Poll;
     };
@@ -59,50 +66,10 @@ interface TweetProps {
 }
 
 export function Tweet({ tweet, user }: TweetProps) {
-    const [likes, setLikes] = useState(tweet.likes);
-    const [liked, setLiked] = useState(tweet.likedByYou);
-    const [showCommentBox, setShowCommentBox] = useState(false);
-    const [comment, setComment] = useState("");
-    const [comments, setComments] = useState(tweet.comments);
-    const router = useRouter();
-
-    const handleLike = async () => {
-        const result = await toggleLike(user.id, tweet.id);
-        if (result.success) {
-            setLikes(liked ? likes - 1 : likes + 1);
-            setLiked(!liked);
-        } else {
-            toast({
-                title: "Error",
-                description: result.message,
-            });
-        }
-    };
-
-    const handleComment = () => {
-        setShowCommentBox(!showCommentBox);
-    };
-
-    const submitComment = async () => {
-        const result = await addComment(user.id, tweet.id, comment);
-        if (result.success) {
-            setComment("");
-            setShowCommentBox(false);
-            setComments((prev) => prev + 1);
-        } else {
-            toast({
-                title: "Error",
-                description: result.message,
-            });
-        }
-    };
     return (
-        <Card
-            className="w-full max-w-2xl mx-auto my-4 cursor-pointer hover:bg-gray-50 transition-colors duration-200"
-            onClick={() => router.push(`/post/${tweet.id}`)}
-        >
+        <Card className="w-full max-w-2xl mx-auto my-4 hover:bg-gray-50 transition-colors duration-200">
             <CardHeader className="flex flex-row items-center space-x-4">
-                <Avatar onClick={() => router.push("/user/")} >
+                <Avatar>
                     <AvatarImage
                         src={
                             tweet.anonymous
@@ -166,60 +133,12 @@ export function Tweet({ tweet, user }: TweetProps) {
                 )}
             </CardContent>
             <CardFooter className="flex justify-between items-center">
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleComment();
-                    }}
-                >
+                <Button variant="ghost" size="sm">
                     <MessageCircle className="w-5 h-5 mr-2" />
-                    {comments}
+                    {tweet.comments}
                 </Button>
-                <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handleLike();
-                    }}
-                >
-                    <Heart
-                        className={`w-5 h-5 mr-2 ${liked ? "fill-red-500 text-red-500" : ""}`}
-                    />
-                    {likes}
-                </Button>
+                <TweetLike tweet={tweet} user={user} toggleLike={toggleLike} />
             </CardFooter>
-            {showCommentBox && (
-                <div
-                    className="p-4 border-t"
-                    onClick={(e) => e.stopPropagation()}
-                >
-                    <div className="flex items-center space-x-2 mb-2">
-                        <Avatar className="w-8 h-8">
-                            <AvatarImage
-                                src={user.avatar || undefined}
-                                alt={user.name}
-                            />
-                            <AvatarFallback>{user.name[0]}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                            <p className="text-sm font-semibold">{user.name}</p>
-                            <p className="text-xs text-gray-500">
-                                @{user.username}
-                            </p>
-                        </div>
-                    </div>
-                    <Textarea
-                        placeholder="Write your comment..."
-                        value={comment}
-                        onChange={(e) => setComment(e.target.value)}
-                        className="w-full mb-2"
-                    />
-                    <Button onClick={submitComment}>Submit Comment</Button>
-                </div>
-            )}
         </Card>
     );
 }

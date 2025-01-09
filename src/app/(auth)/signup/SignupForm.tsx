@@ -27,11 +27,8 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import signup from "./action";
-import getListOfColleges from "@/controllers/getListOfColleges";
-import addNewCollege from "@/controllers/addNewCollege";
-import isEmailUnique from "@/controllers/isEmailUnique";
-import isUsernameUnique from "@/controllers/isUsernameUnique";
+import {signup} from "./action";
+import {isUsernameUnique,isEmailUnique,getListOfColleges,addNewCollege} from "./action";
 import { useToast } from "@/hooks/use-toast";
 
 interface College {

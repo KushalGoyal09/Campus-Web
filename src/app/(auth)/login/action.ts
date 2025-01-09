@@ -10,7 +10,7 @@ interface LoginResponse {
     message: string;
 }
 
-const login = async (
+export const login = async (
     identifier: string,
     password: string,
 ): Promise<LoginResponse> => {
@@ -52,5 +52,3 @@ const login = async (
         };
     }
 };
-
-export default login;

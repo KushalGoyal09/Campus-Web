@@ -10,7 +10,7 @@ interface SignupResponse {
     message: string;
 }
 
-const signup = async (
+export const signup = async (
     name: string,
     email: string,
     username: string,
@@ -45,4 +45,77 @@ const signup = async (
     }
 };
 
-export default signup;
+export const isUsernameUnique = async (username: string): Promise<boolean> => {
+    try {
+        const user = await db.user.findFirst({
+            where: {
+                username,
+            },
+        });
+        return !user;
+    } catch (error) {
+        return true;
+    }
+};
+
+export const isEmailUnique = async (email: string): Promise<boolean> => {
+    try {
+        const user = await db.user.findFirst({
+            where: {
+                email,
+            },
+        });
+        return !user;
+    } catch (error) {
+        return true;
+    }
+};
+
+export const getListOfColleges = async () => {
+    try {
+        const colleges = await db.college.findMany({
+            select: {
+                name: true,
+                location: true,
+                id: true,
+            },
+        });
+        return {
+            success: true,
+            data: colleges,
+        };
+    } catch (error) {
+        return {
+            data: [],
+            success: false,
+        };
+    }
+};
+
+export const addNewCollege = async (name: string, location: string) => {
+    try {
+        const college = await db.college.create({
+            data: {
+                name,
+                location,
+            },
+            select: {
+                id: true,
+                name: true,
+                location: true,
+            },
+        });
+        return {
+            success: true,
+            message: "College added successfully",
+            data: college,
+        };
+    } catch (error) {
+        console.log(error);
+        return {
+            success: false,
+            message: "An error occurred",
+            data: null,
+        };
+    }
+};
