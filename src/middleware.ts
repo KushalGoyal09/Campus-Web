@@ -5,20 +5,20 @@ export async function middleware(request: NextRequest) {
     const token = request.cookies.get("token")?.value;
     if (!token) {
         return NextResponse.next({
-            request
+            request,
         });
     }
     const userId = await getUserId(token);
     if (!userId) {
         return NextResponse.next({
-            request
+            request,
         });
     }
     const headers = new Headers(request.headers);
     headers.set("x-user-id", userId);
     return NextResponse.next({
         request: {
-            headers
-        }
+            headers,
+        },
     });
 }

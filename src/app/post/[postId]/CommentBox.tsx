@@ -109,7 +109,7 @@ export function CommentBox({ tweet, user }: TweetProps) {
     return (
         <div className="space-y-4 w-full max-w-2xl mx-auto my-4">
             <h2 className="text-xl font-semibold">
-                Comments ({tweet.comments})
+                Comments ({comments.length})
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-2">

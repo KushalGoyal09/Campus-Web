@@ -35,6 +35,7 @@ interface Poll {
 }
 
 interface Option {
+    id: string;
     text: string;
     index: number;
     votes: number;

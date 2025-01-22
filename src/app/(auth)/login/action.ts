@@ -45,7 +45,6 @@ export const login = async (
             message: "Logged in",
         };
     } catch (error) {
-        console.log(error);
         return {
             success: false,
             message: "An error occurred",

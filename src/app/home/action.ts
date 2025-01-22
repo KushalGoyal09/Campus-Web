@@ -4,4 +4,4 @@ import addComment from "@/controllers/addComment";
 import getAllTweets from "@/controllers/getAllTweets";
 import toggleVote from "@/controllers/toggleVote";
 
-export { toggleLike, addComment, getAllTweets,toggleVote };
+export { toggleLike, addComment, getAllTweets, toggleVote };

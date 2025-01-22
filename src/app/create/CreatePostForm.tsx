@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, ChangeEvent } from "react";
+import Image from "next/image";
 import { createTweet, getpresignedUrl } from "./action";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -16,6 +17,7 @@ import {
 } from "@/components/ui/card";
 import { ImagePlus, X, PlusCircle, MinusCircle } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { Spinner } from "./Spinner";
 
 interface Poll {
     text: string;
@@ -43,6 +45,7 @@ export function CreatePostForm({ user, userId }: CreatePostFormProps) {
         option: ["", ""],
     });
     const [isLoading, setIsLoading] = useState(false);
+    const [isUploading, setIsUploading] = useState(false);
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleTextChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -51,7 +54,7 @@ export function CreatePostForm({ user, userId }: CreatePostFormProps) {
 
     const handleImageUpload = async (e: ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
-            setIsLoading(true);
+            setIsUploading(true);
             const newImages = await Promise.all(
                 Array.from(e.target.files).map(async (file) => {
                     const { presignedUrl, imageUrl } = await getpresignedUrl(
@@ -63,7 +66,7 @@ export function CreatePostForm({ user, userId }: CreatePostFormProps) {
                 }),
             );
             setImages([...images, ...newImages]);
-            setIsLoading(false);
+            setIsUploading(false);
         }
     };
 
@@ -228,14 +231,16 @@ export function CreatePostForm({ user, userId }: CreatePostFormProps) {
                         </div>
                     </div>
                 )}
-                {!isPollActive && images.length > 0 && (
+                {((!isPollActive && images.length > 0) || isUploading) && (
                     <div className="grid grid-cols-2 gap-2 mt-4">
                         {images.map((img, index) => (
                             <div key={index} className="relative">
-                                <img
+                                <Image
                                     src={img}
                                     alt={`Uploaded ${index + 1}`}
-                                    className="w-full h-32 object-cover rounded-md"
+                                    width={300}
+                                    height={300}
+                                    className="w-full h-32 object-contain rounded-md"
                                 />
                                 <Button
                                     variant="destructive"
@@ -247,6 +252,7 @@ export function CreatePostForm({ user, userId }: CreatePostFormProps) {
                                 </Button>
                             </div>
                         ))}
+                        {isUploading && <Spinner />}
                     </div>
                 )}
             </CardContent>

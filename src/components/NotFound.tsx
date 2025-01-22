@@ -1,25 +1,38 @@
-import Link from 'next/link'
-import { Button } from "@/components/ui/button"
-import { BookOpenIcon, HomeIcon } from 'lucide-react'
+import Link from "next/link"
+import { HomeIcon, SearchIcon, BookOpenIcon } from "lucide-react"
 
-export default function NotFound() {
+interface NotFoundPageProps {
+  title?: string
+  message?: string
+  customMessage?: string
+}
+
+export default function NotFoundPage({
+  title = "Page Not Found",
+  message = "Oops! The page you're looking for has gone missing in the campus shuffle.",
+  customMessage,
+}: NotFoundPageProps) {
   return (
-    <div className="flex items-center justify-center min-h-screen bg-slate-50">
-      <div className="text-center space-y-6 p-8 bg-white rounded-lg shadow-xl max-w-md w-full">
-        <BookOpenIcon className="mx-auto h-24 w-24 text-blue-500" />
-        <h1 className="text-4xl font-bold text-gray-800">404 - Page Not Found</h1>
-        <p className="text-xl text-gray-600">
-          Oops! Looks like this page took an unexpected study break.
-        </p>
-        <p className="text-gray-500">
-          Don't worry, even the best students get lost sometimes.
-        </p>
-        <Button asChild className="mt-6">
-          <Link href="/" className="inline-flex items-center">
-            <HomeIcon className="mr-2 h-4 w-4" />
-            Back to Campus (Homepage)
+    <div className="min-h-screen bg-gradient-to-b from-purple-100 to-white flex items-center justify-center px-4 sm:px-6 lg:px-8">
+      <div className="max-w-lg w-full space-y-8 text-center">
+        <div>
+          <div className="flex justify-center">
+            <BookOpenIcon className="h-24 w-24 text-purple-600" />
+          </div>
+          <h1 className="mt-6 text-4xl font-extrabold text-gray-900 sm:text-5xl">{title}</h1>
+          <p className="mt-2 text-xl text-gray-600">{message}</p>
+          {customMessage && <p className="mt-4 text-sm text-gray-500 italic">{customMessage}</p>}
+        </div>
+        <div className="mt-8 space-y-4">
+          <Link
+            href="/"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md text-white bg-purple-600 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+          >
+            <HomeIcon className="h-5 w-5 mr-2" />
+            Back to Homepage
           </Link>
-        </Button>
+        </div>
+        
       </div>
     </div>
   )

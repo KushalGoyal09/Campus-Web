@@ -1,7 +1,12 @@
 "use server";
 
 import { PrismaClient } from "@prisma/client";
-import { getAwsKey, getAwsRegion, getAwsSecret, getS3Bucket } from "@/lib/constants";
+import {
+    getAwsKey,
+    getAwsRegion,
+    getAwsSecret,
+    getS3Bucket,
+} from "@/lib/constants";
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 const db = new PrismaClient();
@@ -67,8 +72,8 @@ export const createTweet = async (
                     Tweet: {
                         connect: {
                             id: tweet.id,
-                        }
-                    }
+                        },
+                    },
                 },
             });
         }
@@ -91,8 +96,8 @@ export const createTweet = async (
                     Tweet: {
                         connect: {
                             id: tweet.id,
-                        }
-                    }
+                        },
+                    },
                 },
             });
         }
@@ -128,6 +133,6 @@ export const getpresignedUrl = async (fileName: string, fileType: string) => {
     const imageUrl = url.origin + url.pathname;
     return {
         presignedUrl,
-        imageUrl
+        imageUrl,
     };
 };

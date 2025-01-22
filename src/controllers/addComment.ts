@@ -1,7 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 const db = new PrismaClient();
 
-const addComment = async (userId : string,tweetId: string, text: string ) => {
+const addComment = async (userId: string, tweetId: string, text: string) => {
     if (!userId) {
         return {
             success: false,
@@ -19,7 +19,7 @@ const addComment = async (userId : string,tweetId: string, text: string ) => {
                 text: true,
                 id: true,
                 createdAt: true,
-            }
+            },
         });
         return {
             success: true,

@@ -40,6 +40,7 @@ interface Poll {
 }
 
 interface Option {
+    id: string;
     text: string;
     index: number;
     votes: number;
@@ -126,6 +127,7 @@ const getTweet = async (
                         multipleOptions: true,
                         Option: {
                             select: {
+                                id: true,
                                 text: true,
                                 index: true,
                                 _count: {
@@ -191,6 +193,7 @@ const getTweet = async (
                       multipleOptions: post.Poll.multipleOptions,
                       options: post.Poll.Option.map((option) => {
                           return {
+                              id: option.id,
                               text: option.text,
                               index: option.index,
                               votes: option._count.Vote,

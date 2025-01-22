@@ -22,7 +22,7 @@ const getpresignedUrl = async (fileName: string, fileType: string) => {
     const imageUrl = url.origin + url.pathname;
     return {
         presignedUrl,
-        imageUrl
+        imageUrl,
     };
 };
 

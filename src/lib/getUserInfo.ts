@@ -37,4 +37,4 @@ export const getUserInfoFromUsername = async (username: string) => {
     } catch (error) {
         return null;
     }
-}
+};
