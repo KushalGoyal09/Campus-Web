@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import getTweet from "@/controllers/getTweet";
-import Tweet  from "@/app/post/[postId]/Tweet";
+import Tweet from "@/app/post/[postId]/Tweet";
 import { getUserInfo } from "@/lib/getUserInfo";
 import NotFound from "@/components/NotFound";
 import { CommentBox } from "./CommentBox";

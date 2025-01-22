@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useInView } from "react-intersection-observer";
 import { Tweet } from "./Tweet";
 import { Spinner } from "./Spinner";
-import {getAllUserTweets} from "./action";
+import { getAllUserTweets } from "./action";
 
 interface Tweet {
     id: string;
@@ -51,14 +51,14 @@ interface TweetListProps {
         name: string;
         username: string;
     };
-    username: string
+    username: string;
 }
 
 export function InfiniteTweetList({
     initialTweets,
     hasMore: initialHasMore,
     user,
-    username
+    username,
 }: TweetListProps) {
     const [tweets, setTweets] = useState(initialTweets);
     const [hasMore, setHasMore] = useState(initialHasMore);
@@ -75,7 +75,7 @@ export function InfiniteTweetList({
     const loadMoreTweets = async () => {
         setLoading(true);
         try {
-            const data = await getAllUserTweets(user.id,username , page + 1);
+            const data = await getAllUserTweets(user.id, username, page + 1);
             if (data.success) {
                 setTweets((prevTweets) => [...prevTweets, ...data.tweets]);
                 setHasMore(data.hasMore);

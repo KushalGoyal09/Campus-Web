@@ -1,7 +1,3 @@
 export default function MessagePage() {
-    return (
-        <>
-        message me
-        </>
-    )
+    return <>message me</>;
 }

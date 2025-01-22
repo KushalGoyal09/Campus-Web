@@ -11,7 +11,7 @@ interface User {
     username: string;
     name: string;
     avatar: string | null;
-    location?: Location
+    location?: Location;
 }
 
 interface Location {
@@ -37,9 +37,9 @@ wss.on("connection", async (client) => {
     connectedUsers.set(client, user);
     console.log("Connected user");
 
-    client.on('message', (data) => {
-        console.log(data)
-    })
+    client.on("message", (data) => {
+        console.log(data);
+    });
 
     client.on("close", () => {
         console.log("One connection disconnected");

@@ -80,7 +80,7 @@ const getAllUserTweets = async (
             where: {
                 Author: {
                     collegeId,
-                    username
+                    username,
                 },
             },
             select: {

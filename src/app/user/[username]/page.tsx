@@ -21,10 +21,10 @@ export default async function UserPage({
     if (!user) {
         return <NotFound />;
     }
-    const userData = await getUserData(userId,username);
+    const userData = await getUserData(userId, username);
     if (!userData.user) {
-        return <UnauthorizedPage/>
-    } 
+        return <UnauthorizedPage />;
+    }
     return (
         <>
             <UserProfile user={userData.user} />

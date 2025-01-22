@@ -77,8 +77,7 @@ interface Comment {
     userAvatar: string | null;
 }
 
-
-const Tweet = ({  tweet, user }: TweetProps) => {
+const Tweet = ({ tweet, user }: TweetProps) => {
     const [likes, setLikes] = useState(tweet.likes);
     const [liked, setLiked] = useState(tweet.likedByYou);
     const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -119,48 +118,50 @@ const Tweet = ({  tweet, user }: TweetProps) => {
     return (
         <>
             <Card className="w-full max-w-2xl mx-auto my-4 hover:bg-gray-50 transition-colors duration-200">
-            <CardHeader className="flex flex-row items-center space-x-4">
-                <Avatar
-                    onClick={(e) => {
-                        if (!tweet.anonymous)
-                            router.push(`/user/${tweet.username}`);
-                    }}
-                    className="cursor-pointer"
-                >
-                    <AvatarImage
-                        src={
-                            tweet.anonymous
-                                ? "/anonymous.png"
-                                : tweet.userAvatar || undefined
-                        }
-                    />
-                    <AvatarFallback>
-                        {tweet.anonymous ? "A" : tweet.name[0]}
-                    </AvatarFallback>
-                </Avatar>
-                <div className="flex items-center space-x-2">
-                    <div
+                <CardHeader className="flex flex-row items-center space-x-4">
+                    <Avatar
                         onClick={(e) => {
-                            e.stopPropagation();
                             if (!tweet.anonymous)
                                 router.push(`/user/${tweet.username}`);
                         }}
                         className="cursor-pointer"
                     >
-                        <h2 className="text-lg font-semibold">
-                            {tweet.anonymous ? "Anonymous User" : tweet.name}
-                        </h2>
-                        {!tweet.anonymous && (
-                            <p className="text-sm text-gray-500">
-                                @{tweet.username}
-                            </p>
-                        )}
+                        <AvatarImage
+                            src={
+                                tweet.anonymous
+                                    ? "/anonymous.png"
+                                    : tweet.userAvatar || undefined
+                            }
+                        />
+                        <AvatarFallback>
+                            {tweet.anonymous ? "A" : tweet.name[0]}
+                        </AvatarFallback>
+                    </Avatar>
+                    <div className="flex items-center space-x-2">
+                        <div
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                if (!tweet.anonymous)
+                                    router.push(`/user/${tweet.username}`);
+                            }}
+                            className="cursor-pointer"
+                        >
+                            <h2 className="text-lg font-semibold">
+                                {tweet.anonymous
+                                    ? "Anonymous User"
+                                    : tweet.name}
+                            </h2>
+                            {!tweet.anonymous && (
+                                <p className="text-sm text-gray-500">
+                                    @{tweet.username}
+                                </p>
+                            )}
+                        </div>
+                        <span className="text-sm text-gray-500">
+                            <TimeAgo date={tweet.createdAt} />
+                        </span>
                     </div>
-                    <span className="text-sm text-gray-500">
-                        <TimeAgo date={tweet.createdAt} />
-                    </span>
-                </div>
-            </CardHeader>
+                </CardHeader>
                 <CardContent>
                     {tweet.post && (
                         <div>
